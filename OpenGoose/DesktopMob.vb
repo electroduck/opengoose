@@ -1,29 +1,42 @@
-﻿Public Class DesktopMob
-    Private mPhysObj As New Physics.PhysicsObject
+﻿Public MustInherit Class DesktopMob
+    Protected mPhysObj As New Physics.PhysicsObject
     Private mLastTickTime As Date = Date.Now
     Private mMovementTarget As Physics.Vector2D = Physics.Vector2D.Zero
     Private mMoving As Boolean = False
+    Private WithEvents mForm As New DesktopMobForm
 
-    Public Property Mass As Double
+    Public ReadOnly Property Form As DesktopMobForm
         Get
-            Return mPhysObj.mMass
+            Return mForm
         End Get
-        Set(fValue As Double)
-            mPhysObj.mMass = fValue
-        End Set
     End Property
 
-    Sub New()
-        ' This call is required by the designer.
-        InitializeComponent()
+    Public Overridable ReadOnly Property Mass As Double
+        Get
+            Return 1.0
+        End Get
+    End Property
 
-        ' Add any initialization after the InitializeComponent() call.
+    Public Overridable ReadOnly Property Diameter As Double
+        Get
+            Return 100.0
+        End Get
+    End Property
+
+    Public Overridable ReadOnly Property ClickThrough As Boolean
+        Get
+            Return False
+        End Get
+    End Property
+
+    Public Sub New()
+        mPhysObj.mMass = Mass
     End Sub
 
     Public Sub MoveTowards(pt As Point)
         mMovementTarget = Physics.Vector2D.FromPoint(pt)
-        mMovementTarget.X -= Width / 2
-        mMovementTarget.Y -= Height / 2
+        mMovementTarget.X -= mForm.Width / 2
+        mMovementTarget.Y -= mForm.Height / 2
         mMoving = True
     End Sub
 
@@ -32,41 +45,54 @@
         mMovementTarget = Physics.Vector2D.Zero
     End Sub
 
+    Protected Overridable Function GetMovementForce(vecTarget As Physics.Vector2D, vecPosition As Physics.Vector2D) As Physics.Vector2D
+        Dim vecForce As Physics.Vector2D = (vecTarget - vecPosition) / 10000.0
+        vecForce.Magnitude = vecForce.Magnitude / 2.0 + Math.Pow(vecForce.Magnitude, 2.0) / 2.0
+        Return vecForce
+    End Function
+
+    Protected Overridable Sub OnTick()
+    End Sub
+
     Public Sub Tick()
-        Dim dtThisTickTime As Date = Date.Now
+        Dim dtThisTickTime As Date
+
+        OnTick()
 
         mPhysObj.ClearForces()
         If mMoving Then
-            Dim vecForce As Physics.Vector2D = (mMovementTarget - mPhysObj.mPosition) / 1000.0
-            vecForce.Magnitude = vecForce.Magnitude / 2.0 + Math.Pow(vecForce.Magnitude, 2.0) / 2.0
-            mPhysObj.ApplyForce(vecForce)
+            mPhysObj.ApplyForce(GetMovementForce(mMovementTarget, mPhysObj.mPosition))
         End If
 
+        dtThisTickTime = Date.Now
         mPhysObj.Simulate((dtThisTickTime - mLastTickTime).TotalSeconds)
         mLastTickTime = dtThisTickTime
 
-        DesktopLocation = mPhysObj.mPosition.AsPoint
+        mForm.DesktopLocation = mPhysObj.mPosition.AsPoint
 
-        Invalidate()
+        mForm.Invalidate()
     End Sub
 
-    Private Sub DesktopMob_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        mPhysObj.mPosition.X = DesktopLocation.X + Width / 2
-        mPhysObj.mPosition.Y = DesktopLocation.Y + Height / 2
+    Private Sub DesktopMobForm_Load(sender As Object, e As EventArgs) Handles mForm.Load
+        mForm.Width = Diameter
+        mForm.Height = Diameter
+        mPhysObj.mPosition.X = mForm.DesktopLocation.X + Diameter \ 2
+        mPhysObj.mPosition.Y = mForm.DesktopLocation.Y + Diameter \ 2
     End Sub
 
-    Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
-        'MyBase.OnPaintBackground(e)
+    Protected Overridable Sub OnPaint(gfx As Graphics, s As Size)
+        gfx.FillEllipse(Brushes.Pink, 0, 0, s.Width, s.Height)
     End Sub
 
-    Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        MyBase.OnPaint(e)
+    Private Sub DesktopMobForm_PaintBackBuffer(gfx As Graphics) Handles mForm.PaintBackBuffer
+        OnPaint(gfx, mForm.ClientSize)
+    End Sub
 
-        e.Graphics.Clear(Color.Fuchsia)
-        e.Graphics.FillEllipse(Brushes.BlanchedAlmond, 0, 0, Width, Height)
-        e.Graphics.DrawLine(Pens.Blue, Width \ 2, Height \ 2,
-                            CInt(Width \ 2 + mPhysObj.mVelocity.X / mPhysObj.mVelocity.Magnitude * 50.0),
-                            CInt(Height \ 2 + mPhysObj.mVelocity.Y / mPhysObj.mVelocity.Magnitude * 50.0))
+    Protected Overridable Sub OnShow()
+    End Sub
+
+    Public Sub Show()
+        mForm.Show()
     End Sub
 
 End Class

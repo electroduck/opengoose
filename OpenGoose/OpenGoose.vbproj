@@ -65,13 +65,15 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DesktopMob.Designer.vb">
-      <DependentUpon>DesktopMob.vb</DependentUpon>
+    <Compile Include="DesktopMob.vb" />
+    <Compile Include="DesktopMobForm.Designer.vb">
+      <DependentUpon>DesktopMobForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="DesktopMob.vb">
+    <Compile Include="DesktopMobForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interop.vb" />
+    <Compile Include="MobGoose.vb" />
     <Compile Include="OGMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -92,8 +94,8 @@
     <Compile Include="PhysicsVector.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DesktopMob.resx">
-      <DependentUpon>DesktopMob.vb</DependentUpon>
+    <EmbeddedResource Include="DesktopMobForm.resx">
+      <DependentUpon>DesktopMobForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

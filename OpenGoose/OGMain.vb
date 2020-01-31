@@ -1,7 +1,6 @@
 ﻿Public Class OGMain
     Public Shared Sub Main()
-        Dim frmMob As New DesktopMob
-        frmMob.Mass = 100.0
+        Dim frmMob As DesktopMob = New MobGoose
         frmMob.Show()
 
         Do
