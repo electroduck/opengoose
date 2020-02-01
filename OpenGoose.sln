@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "OpenGoose", "OpenGoose\OpenGoose.vbproj", "{D2B49133-B602-482F-9F79-0CD9AB73E473}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DeskMob", "DeskMob\DeskMob.vbproj", "{B21972E5-097D-4F2A-8CD6-5B88CD24ED9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D2B49133-B602-482F-9F79-0CD9AB73E473}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B49133-B602-482F-9F79-0CD9AB73E473}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2B49133-B602-482F-9F79-0CD9AB73E473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B21972E5-097D-4F2A-8CD6-5B88CD24ED9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B21972E5-097D-4F2A-8CD6-5B88CD24ED9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B21972E5-097D-4F2A-8CD6-5B88CD24ED9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B21972E5-097D-4F2A-8CD6-5B88CD24ED9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
