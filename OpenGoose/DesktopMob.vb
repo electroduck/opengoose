@@ -74,10 +74,10 @@
     End Sub
 
     Private Sub DesktopMobForm_Load(sender As Object, e As EventArgs) Handles mForm.Load
-        mForm.Width = Diameter
-        mForm.Height = Diameter
-        mPhysObj.mPosition.X = mForm.DesktopLocation.X + Diameter \ 2
-        mPhysObj.mPosition.Y = mForm.DesktopLocation.Y + Diameter \ 2
+        mForm.Width = Diameter + 32
+        mForm.Height = Diameter + 32
+        mPhysObj.mPosition.X = mForm.DesktopLocation.X + mForm.Width \ 2
+        mPhysObj.mPosition.Y = mForm.DesktopLocation.Y + mForm.Height \ 2
     End Sub
 
     Protected Overridable Sub OnPaint(gfx As Graphics, s As Size)

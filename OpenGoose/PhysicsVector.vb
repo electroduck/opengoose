@@ -22,20 +22,35 @@
             End Get
             Set(fValue As Double)
                 Dim fMag As Double = Magnitude
-                X = (X / fMag) * fValue
-                Y = (Y / fMag) * fValue
+                If fMag = 0 Then
+                    X = 0
+                    Y = 0
+                Else
+                    X = (X / fMag) * fValue
+                    Y = (Y / fMag) * fValue
+                End If
             End Set
         End Property
 
-        Public ReadOnly Property AsPoint
+        Public ReadOnly Property AsPoint As Point
             Get
                 Return New Point(X, Y)
             End Get
         End Property
 
-        Public ReadOnly Property AsPointF
+        Public ReadOnly Property AsPointF As PointF
             Get
                 Return New PointF(X, Y)
+            End Get
+        End Property
+
+        Public ReadOnly Property UnitVector As Vector2D
+            Get
+                Dim vec As Vector2D
+                vec.X = X
+                vec.Y = Y
+                vec.Magnitude = 1
+                Return vec
             End Get
         End Property
 
