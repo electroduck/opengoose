@@ -17,7 +17,9 @@
 
     Private Shared ReadOnly mTaskTypes As New List(Of Type) From {
         GetType(GooseWanderTask),
-        GetType(GooseFetchTextTask)
+        GetType(GooseFetchTextTask),
+        GetType(GooseFetchWebTask),
+        GetType(GooseFetchImageTask)
     }
 
     Protected Overrides ReadOnly Property TaskTypes As IList(Of Type)

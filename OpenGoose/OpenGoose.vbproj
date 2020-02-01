@@ -65,9 +65,17 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GooseFetchImageTask.vb" />
     <Compile Include="GooseFetchTextTask.vb" />
+    <Compile Include="GooseFetchWebTask.vb" />
     <Compile Include="GooseFetchWindowTask.vb" />
     <Compile Include="GooseWanderTask.vb" />
+    <Compile Include="ImageForm.Designer.vb">
+      <DependentUpon>ImageForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ImageForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MobGoose.vb" />
     <Compile Include="OGMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -91,8 +99,17 @@
     <Compile Include="TextBoxForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WebpageForm.Designer.vb">
+      <DependentUpon>WebpageForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WebpageForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ImageForm.resx">
+      <DependentUpon>ImageForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -101,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TextBoxForm.resx">
       <DependentUpon>TextBoxForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WebpageForm.resx">
+      <DependentUpon>WebpageForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +142,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Note.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Web.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ImageFile.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

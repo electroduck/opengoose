@@ -95,6 +95,9 @@ Public MustInherit Class GooseFetchWindowTask
         mDestA = Physics.Vector2D.FromPoint(New Point(nGooseX, nGooseY))
         mDestB = Physics.Vector2D.FromPoint(New Point(nTargetX, nTargetY))
 
+        AddHandler mForm.FormClosing, AddressOf mForm_Closing
+        AddHandler mForm.FormClosed, AddressOf mForm_Closed
+
         Mob.MoveTowards(mDestA.AsPoint, 10000.0)
     End Sub
 
@@ -110,6 +113,10 @@ Public MustInherit Class GooseFetchWindowTask
         Else
             If (mDestB - Mob.Position).Magnitude < 150 Then
                 Mob.StopMoving()
+
+                RemoveHandler mForm.FormClosing, AddressOf mForm_Closing
+                RemoveHandler mForm.FormClosed, AddressOf mForm_Closed
+
                 SetComplete()
             End If
 
@@ -126,11 +133,21 @@ Public MustInherit Class GooseFetchWindowTask
                 Case SourceSide.Right
                     mForm.DesktopLocation = New Point(Mob.Position.X - mForm.Width + Mob.Diameter \ 2, Mob.Position.Y - mForm.Height \ 2)
             End Select
+
+            mForm.Select()
         End If
     End Sub
 
     Protected Overrides Sub OnAbort()
         mForm.Hide()
         MyBase.OnAbort()
+    End Sub
+
+    Private Sub mForm_Closing(sender As Object, e As FormClosingEventArgs)
+        e.Cancel = True
+    End Sub
+
+    Private Sub mForm_Closed(sender As Object, e As FormClosedEventArgs)
+        Abort()
     End Sub
 End Class

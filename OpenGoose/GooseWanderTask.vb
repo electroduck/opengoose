@@ -1,4 +1,4 @@
-﻿<TaskWeight(10)>
+﻿<TaskWeight(20)>
 Public Class GooseWanderTask
     Inherits MobTask
 
