@@ -149,5 +149,8 @@
   <ItemGroup>
     <None Include="Resources\ImageFile.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Goose.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

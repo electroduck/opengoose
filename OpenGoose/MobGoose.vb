@@ -28,6 +28,18 @@
         End Get
     End Property
 
+    Protected Overrides Sub OnShow()
+        MyBase.OnShow()
+
+        TrayIcon.Icon = My.Resources.Goose
+        TrayIcon.Text = "OpenGoose"
+        TrayIcon.Visible = True
+        TrayIcon.ContextMenu = New ContextMenu
+        TrayIcon.ContextMenu.MenuItems.Add(New MenuItem With {.Text = "OpenGoose v???", .Enabled = False})
+        TrayIcon.ContextMenu.MenuItems.Add("Abort Task", New EventHandler(AddressOf Menu_AbortTask))
+        TrayIcon.ContextMenu.MenuItems.Add("Exit", New EventHandler(AddressOf Menu_Exit))
+    End Sub
+
     Protected Overrides Sub OnPaint(gfx As Graphics, s As Size)
         Dim brushGoose As New SolidBrush(Color.White)
         Dim brushGooseBg As New SolidBrush(Color.Gray)
@@ -92,5 +104,14 @@
         If mFeetRotation > (2 * Math.PI) Then
             mFeetRotation -= 2 * Math.PI
         End If
+    End Sub
+
+    Private Sub Menu_Exit(sender As Object, e As EventArgs)
+        TrayIcon.Visible = False
+        End
+    End Sub
+
+    Private Sub Menu_AbortTask(sender As Object, e As EventArgs)
+        AbortCurrentTask()
     End Sub
 End Class

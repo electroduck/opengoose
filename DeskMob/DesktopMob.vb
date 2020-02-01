@@ -53,6 +53,15 @@
         End Get
     End Property
 
+    Protected Property TrayIcon As NotifyIcon
+        Get
+            Return mForm.TrayIcon
+        End Get
+        Set(value As NotifyIcon)
+            mForm.TrayIcon = value
+        End Set
+    End Property
+
     Public Sub New()
         mPhysObj.mMass = Mass
     End Sub
@@ -124,6 +133,7 @@
 
     Public Sub Show()
         mForm.Show()
+        OnShow()
     End Sub
 
     Private Sub StartRandomTask()
@@ -150,6 +160,12 @@
 
             mTask = Activator.CreateInstance(TaskTypes(nTaskType), Me)
             mTask.Begin()
+        End If
+    End Sub
+
+    Public Sub AbortCurrentTask()
+        If mTask IsNot Nothing AndAlso mTask.State = MobTask.TaskState.Running Then
+            mTask.Abort()
         End If
     End Sub
 

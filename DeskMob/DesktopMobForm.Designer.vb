@@ -22,7 +22,14 @@ Partial Class DesktopMobForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Me.TrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.SuspendLayout()
+        '
+        'TrayIcon
+        '
+        Me.TrayIcon.Text = "NotifyIcon1"
+        Me.TrayIcon.Visible = True
         '
         'DesktopMobForm
         '
@@ -38,4 +45,6 @@ Partial Class DesktopMobForm
         Me.ResumeLayout(False)
 
     End Sub
+
+    Friend WithEvents TrayIcon As NotifyIcon
 End Class
