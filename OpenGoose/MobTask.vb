@@ -27,9 +27,9 @@
         End Get
     End Property
 
-    Public ReadOnly Property Weight As UInteger
+    Public ReadOnly Property Weight As Integer
         Get
-
+            Return TaskWeightAttribute.GetWeight(Me.GetType)
         End Get
     End Property
 
