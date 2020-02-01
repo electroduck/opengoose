@@ -88,6 +88,7 @@
     <Compile Include="PhysicsObject.vb" />
     <Compile Include="PhysicsVector.vb" />
     <Compile Include="TaskWeightAttribute.vb" />
+    <Compile Include="Util.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DesktopMobForm.resx">

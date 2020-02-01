@@ -16,7 +16,7 @@
     End Property
 
     Private Shared ReadOnly mTaskTypes As New List(Of Type) From {
-        GetType(GooseWanderTask)
+        GetType(GooseFetchTextTask)
     }
 
     Protected Overrides ReadOnly Property TaskTypes As IList(Of Type)

@@ -37,10 +37,14 @@
         End Get
     End Property
 
-    Public ReadOnly Property Position As Physics.Vector2D
+    Public Property Position As Physics.Vector2D
         Get
             Return mPhysObj.mPosition
         End Get
+        Set(vecValue As Physics.Vector2D)
+            mPhysObj.mPosition = vecValue
+            mForm.DesktopLocation = vecValue.AsPoint
+        End Set
     End Property
 
     Public ReadOnly Property Velocity As Physics.Vector2D

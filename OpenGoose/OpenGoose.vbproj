@@ -65,6 +65,8 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GooseFetchTextTask.vb" />
+    <Compile Include="GooseFetchWindowTask.vb" />
     <Compile Include="GooseWanderTask.vb" />
     <Compile Include="MobGoose.vb" />
     <Compile Include="OGMain.vb" />
