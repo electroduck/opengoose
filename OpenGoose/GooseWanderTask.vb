@@ -10,8 +10,11 @@ Public Class GooseWanderTask
 
     Protected Overrides Sub OnBegin()
         Dim rand As New Random
-        mDest = New Point(rand.Next(Screen.PrimaryScreen.WorkingArea.Width),
-                          rand.Next(Screen.PrimaryScreen.WorkingArea.Height))
+        Dim scrnTarget As Screen
+
+        scrnTarget = Screen.AllScreens(rand.Next(Screen.AllScreens.Length))
+        mDest = RandomPointInRect(rand, scrnTarget.WorkingArea)
+
         Mob.MoveTowards(mDest, 100000.0)
     End Sub
 
@@ -26,5 +29,9 @@ Public Class GooseWanderTask
         Mob.StopMoving()
         MyBase.OnAbort()
     End Sub
+
+    Private Function RandomPointInRect(rand As Random, rect As Rectangle) As Point
+        Return New Point(rect.X + rand.Next(rect.Width), rect.Y + rand.Next(rect.Height))
+    End Function
 
 End Class

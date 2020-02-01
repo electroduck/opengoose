@@ -139,7 +139,10 @@
                 nTgtWeightsum -= TaskWeightAttribute.GetWeight(TaskTypes(nTaskType))
                 nTaskType += 1
             End While
-            nTaskType -= 1
+
+            If nTgtWeightsum <> 0 Then
+                nTaskType -= 1
+            End If
 
             mTask = Activator.CreateInstance(TaskTypes(nTaskType), Me)
             mTask.Begin()
