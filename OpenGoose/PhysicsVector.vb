@@ -75,6 +75,10 @@
             Return vec
         End Function
 
+        Public Shared Function FromMousePosition() As Vector2D
+            Return FromPoint(GetMousePosition)
+        End Function
+
         Public Function EqualsVector(vecOther As Vector2D) As Boolean Implements IEquatable(Of Vector2D).Equals
             Return vecOther.X = X And vecOther.Y = Y
         End Function

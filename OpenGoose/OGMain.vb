@@ -4,7 +4,7 @@
         frmMob.Show()
 
         Do
-            frmMob.MoveTowards(GetMousePosition)
+            'frmMob.MoveTowards(GetMousePosition)
             frmMob.Tick()
             Application.DoEvents()
             Threading.Thread.Sleep(10)

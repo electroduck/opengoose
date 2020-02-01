@@ -15,6 +15,16 @@
         End Get
     End Property
 
+    Private Shared ReadOnly mTaskTypes As New List(Of Type) From {
+        GetType(GooseWanderTask)
+    }
+
+    Protected Overrides ReadOnly Property TaskTypes As IList(Of Type)
+        Get
+            Return mTaskTypes
+        End Get
+    End Property
+
     Protected Overrides Sub OnPaint(gfx As Graphics, s As Size)
         Dim brushGoose As New SolidBrush(Color.White)
         Dim brushGooseBg As New SolidBrush(Color.Gray)
