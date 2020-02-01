@@ -7,11 +7,11 @@ Public Class GooseFetchTextTask
     End Sub
 
     Protected Overrides Sub OnBegin()
-        Window = New Form
-        Window.Controls.Add(New Label With {
-                            .Text = "Test",
-                            .Dock = DockStyle.Fill
-                            })
+        Window = New TextBoxForm
+        DirectCast(Window, TextBoxForm).MessageTextBox.Text = "H o N c"
+        DirectCast(Window, TextBoxForm).MessageTextBox.SelectAll()
+        DirectCast(Window, TextBoxForm).MessageTextBox.SelectionFont = New Font("Comic Sans MS", 14.0F, FontStyle.Bold)
+        DirectCast(Window, TextBoxForm).MessageTextBox.DeselectAll()
         MyBase.OnBegin()
     End Sub
 End Class
