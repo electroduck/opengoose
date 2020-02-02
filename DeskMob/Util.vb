@@ -30,4 +30,35 @@
         Next
         Return lstScreenAreas
     End Function
+
+    Public Function PickRandom(Of T)(lst As IList(Of T), Optional rand As Random = Nothing) As T
+        If rand Is Nothing Then
+            rand = New Random
+        End If
+
+        Return lst.Item(rand.Next(lst.Count))
+    End Function
+
+    Public Delegate Function DownloadDelegate(Of T)(strURL As String) As T
+
+    Public Function SafeDownload(Of T)(procDownload As DownloadDelegate(Of T), strURL As String,
+                                       Optional nTimeoutMillis As Integer = 1000) As T
+        Dim thdDownload As System.Threading.Thread
+        Dim output As T
+
+        thdDownload = New Threading.Thread(
+            Sub()
+                output = procDownload(strURL)
+            End Sub
+        )
+
+        thdDownload.Start()
+        thdDownload.Join(nTimeoutMillis)
+
+        If thdDownload.IsAlive Then
+            Throw New TimeoutException("Download of " & strURL & " did not complete within " & nTimeoutMillis & "ms")
+        End If
+
+        Return output
+    End Function
 End Module

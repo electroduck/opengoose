@@ -1,7 +1,8 @@
 ﻿Imports Electroduck.OpenGoose
 
+<MemeSource(GetType(MemeImage))>
 Public Class MemeSourceIFunny
-    Inherits MemeSource
+    Inherits MemeSource(Of MemeImage)
 
     Private mURLs As New Queue(Of String)
 
@@ -25,7 +26,7 @@ Public Class MemeSourceIFunny
         Next
     End Sub
 
-    Public Overrides Function GetMeme() As Meme
+    Public Overrides Function GetMeme() As MemeImage
         If Not CanGetMeme() Then
             Throw New InvalidOperationException("Cannot get iFunny meme at this time")
         End If

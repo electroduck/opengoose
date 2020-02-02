@@ -77,7 +77,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Meme.vb" />
+    <Compile Include="MemeManager.vb" />
     <Compile Include="MemeSource.vb" />
+    <Compile Include="MemeSourceAttribute.vb" />
     <Compile Include="MemeSourceIFunny.vb" />
     <Compile Include="MobGoose.vb" />
     <Compile Include="OGMain.vb" />

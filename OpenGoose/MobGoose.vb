@@ -15,6 +15,8 @@
         End Get
     End Property
 
+    Public Property MemeMgr As MemeManager = New MemeManager
+
     Private Shared ReadOnly mTaskTypes As New List(Of Type) From {
         GetType(GooseWanderTask),
         GetType(GooseFetchTextTask),

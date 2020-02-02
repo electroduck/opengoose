@@ -2,8 +2,6 @@
 Public Class GooseFetchImageTask
     Inherits GooseFetchWindowTask
 
-    Private Shared msMemeSource As New MemeSourceIFunny
-
     Public Sub New(m As DesktopMob)
         MyBase.New(m)
     End Sub
@@ -16,10 +14,7 @@ Public Class GooseFetchImageTask
 
     Private Function GetMeme() As Bitmap
         Try
-            If Not msMemeSource.CanGetMeme Then
-                msMemeSource.Init()
-            End If
-            Return DirectCast(msMemeSource.GetMeme, MemeImage).DrawingImage
+            Return DirectCast(Mob, MobGoose).MemeMgr.GetMeme(Of MemeImage).DrawingImage
         Catch ex As Exception
             Debug.WriteLine("Error getting meme: " & ex.ToString)
             Return CreatePlaceholderMeme()
