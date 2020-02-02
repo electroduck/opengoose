@@ -81,6 +81,7 @@
     <Compile Include="MemeSource.vb" />
     <Compile Include="MemeSourceAttribute.vb" />
     <Compile Include="MemeSourceIFunny.vb" />
+    <Compile Include="MemeSourceReddit.vb" />
     <Compile Include="MobGoose.vb" />
     <Compile Include="OGMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

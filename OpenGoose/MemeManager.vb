@@ -13,6 +13,7 @@
                         mSources.Add(typeOutput, New List(Of IMemeSource))
                     End If
                     mSources(typeOutput).Add(Activator.CreateInstance(typeSource))
+                    Debug.WriteLine("MemeManager registered " & typeSource.FullName & " as source of " & typeOutput.FullName)
                 Catch ex As Exception
                     Debug.WriteLine("WARNING: Adding meme source " & typeOutput.FullName &
                                     " to sources list caused an exception: " & ex.ToString)
