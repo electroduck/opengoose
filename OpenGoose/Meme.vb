@@ -10,14 +10,14 @@
         mURL = strURL
     End Sub
 
-    Public Function DownloadToTempFile() As String
+    Public Overridable Function DownloadToTempFile() As String
         Dim strTempFile As String = My.Computer.FileSystem.GetTempFileName
         Dim www As New Net.WebClient
         www.DownloadFile(URL, strTempFile)
         Return strTempFile
     End Function
 
-    Public Function DownloadToMemory() As Byte()
+    Public Overridable Function DownloadToMemory() As Byte()
         Dim www As New Net.WebClient
         Return www.DownloadData(URL)
     End Function
@@ -40,6 +40,45 @@ Public Class MemeImage
                 End Using
             End If
             Return mDrawingImage
+        End Get
+    End Property
+End Class
+
+Public Class MemeAnimation
+    Inherits Meme
+
+    Private mFilePath As String
+    Private mReferrer As String
+
+    Private Const USERAGENT_CHROME As String = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+
+    Public Sub New(strURL As String, Optional strReferrer As String = "https://gfycat.com/popular-gifs")
+        MyBase.New(strURL)
+        mReferrer = strReferrer
+    End Sub
+
+    Public Overrides Function DownloadToTempFile() As String
+        Dim strTempFile As String = My.Computer.FileSystem.GetTempFileName
+        Dim www As New Net.WebClient
+        www.Headers.Add(Net.HttpRequestHeader.Referer, mReferrer)
+        www.Headers.Add(Net.HttpRequestHeader.UserAgent, USERAGENT_CHROME)
+        www.DownloadFile(URL, strTempFile)
+        Return strTempFile
+    End Function
+
+    Public Overrides Function DownloadToMemory() As Byte()
+        Dim www As New Net.WebClient
+        www.Headers.Add(Net.HttpRequestHeader.Referer, mReferrer)
+        www.Headers.Add(Net.HttpRequestHeader.UserAgent, USERAGENT_CHROME)
+        Return www.DownloadData(URL)
+    End Function
+
+    Public ReadOnly Property FilePath As String
+        Get
+            If mFilePath Is Nothing Then
+                mFilePath = DownloadToTempFile()
+            End If
+            Return mFilePath
         End Get
     End Property
 End Class

@@ -65,6 +65,7 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GooseFetchAnimTask.vb" />
     <Compile Include="GooseFetchImageTask.vb" />
     <Compile Include="GooseFetchTextTask.vb" />
     <Compile Include="GooseFetchWebTask.vb" />
@@ -80,6 +81,7 @@
     <Compile Include="MemeManager.vb" />
     <Compile Include="MemeSource.vb" />
     <Compile Include="MemeSourceAttribute.vb" />
+    <Compile Include="MemeSourceGfycat.vb" />
     <Compile Include="MemeSourceIFunny.vb" />
     <Compile Include="MemeSourceReddit.vb" />
     <Compile Include="MobGoose.vb" />
