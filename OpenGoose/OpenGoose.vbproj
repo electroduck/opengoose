@@ -69,6 +69,7 @@
     <Compile Include="GooseFetchImageTask.vb" />
     <Compile Include="GooseFetchTextTask.vb" />
     <Compile Include="GooseFetchWebTask.vb" />
+    <Compile Include="GooseFetchWebVideoTask.vb" />
     <Compile Include="GooseFetchWindowTask.vb" />
     <Compile Include="GooseWanderTask.vb" />
     <Compile Include="ImageForm.Designer.vb">
@@ -84,6 +85,7 @@
     <Compile Include="MemeSourceGfycat.vb" />
     <Compile Include="MemeSourceIFunny.vb" />
     <Compile Include="MemeSourceReddit.vb" />
+    <Compile Include="MemeSourceYoutube.vb" />
     <Compile Include="MobGoose.vb" />
     <Compile Include="OGMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

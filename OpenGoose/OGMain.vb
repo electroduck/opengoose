@@ -1,6 +1,8 @@
 ﻿Public Class OGMain
     Public Shared Sub Main()
         Dim frmMob As DesktopMob = New MobGoose
+
+        FixWebBrowserControl()
         frmMob.Show()
 
         Do

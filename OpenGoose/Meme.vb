@@ -82,3 +82,19 @@ Public Class MemeAnimation
         End Get
     End Property
 End Class
+
+Public Class MemeVideo
+    Inherits Meme
+
+    Public Sub New(strURL As String)
+        MyBase.New(strURL)
+    End Sub
+
+    Public Overrides Function DownloadToMemory() As Byte()
+        Throw New NotSupportedException("Downloading videos is not supported")
+    End Function
+
+    Public Overrides Function DownloadToTempFile() As String
+        Throw New NotSupportedException("Downloading videos is not supported")
+    End Function
+End Class

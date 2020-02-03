@@ -22,7 +22,8 @@
         GetType(GooseFetchTextTask),
         GetType(GooseFetchWebTask),
         GetType(GooseFetchImageTask),
-        GetType(GooseFetchAnimTask)
+        GetType(GooseFetchAnimTask),
+        GetType(GooseFetchWebVideoTask)
     }
 
     Protected Overrides ReadOnly Property TaskTypes As IList(Of Type)

@@ -61,4 +61,35 @@
 
         Return output
     End Function
+
+    Public Sub FixWebBrowserControl()
+        Dim strEXEName As String = Process.GetCurrentProcess.ProcessName & ".exe"
+        Dim dwRegVersion As Integer
+        Dim nMajorVersion As Integer
+
+        Using ctlBrowser As New WebBrowser
+            nMajorVersion = ctlBrowser.Version.Major
+        End Using
+
+        Select Case nMajorVersion
+            Case 11
+                dwRegVersion = 11001
+
+            Case 10
+                dwRegVersion = 10001
+
+            Case 9
+                dwRegVersion = 9999
+
+            Case 8
+                dwRegVersion = 8888
+
+            Case Else
+                dwRegVersion = 7000
+        End Select
+
+        My.Computer.Registry.SetValue(
+            "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
+            strEXEName, dwRegVersion)
+    End Sub
 End Module
