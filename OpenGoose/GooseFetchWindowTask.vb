@@ -134,7 +134,7 @@ Public MustInherit Class GooseFetchWindowTask
                     mForm.DesktopLocation = New Point(Mob.Position.X - mForm.Width + Mob.Diameter \ 2, Mob.Position.Y - mForm.Height \ 2)
             End Select
 
-            mForm.Select()
+            mForm.BringToFront()
         End If
     End Sub
 

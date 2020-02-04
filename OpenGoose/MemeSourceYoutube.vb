@@ -11,7 +11,8 @@ Public Class MemeSourceYoutube
 
     Public Overrides Sub Init()
         Dim strPage As String
-        Dim strImageName As String
+        Dim strVideoIDCur As String
+        Dim strVideoIDLast As String = ""
         Dim regex As New Text.RegularExpressions.Regex(REGEX_VIDEOID)
         Dim matches As Text.RegularExpressions.MatchCollection
 
@@ -22,8 +23,11 @@ Public Class MemeSourceYoutube
         mURLs.Clear()
         matches = regex.Matches(strPage)
         For Each match As Text.RegularExpressions.Match In matches
-            strImageName = match.Groups.Item(1).Value
-            mURLs.Enqueue("https://www.youtube.com/embed/" & strImageName)
+            strVideoIDCur = match.Groups.Item(1).Value
+            If strVideoIDCur <> strVideoIDLast Then
+                mURLs.Enqueue("https://www.youtube.com/embed/" & strVideoIDCur)
+                strVideoIDLast = strVideoIDCur
+            End If
         Next
     End Sub
 
