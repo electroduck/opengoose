@@ -41,7 +41,6 @@ Partial Class DesktopMobForm
         Me.ShowInTaskbar = False
         Me.Text = "Desktop Mob"
         Me.TopMost = True
-        Me.TransparencyKey = System.Drawing.Color.Fuchsia
         Me.ResumeLayout(False)
 
     End Sub

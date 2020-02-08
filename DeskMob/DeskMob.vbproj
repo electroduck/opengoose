@@ -21,6 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>DeskMob.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>DeskMob.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -61,6 +63,7 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Desktop.vb" />
     <Compile Include="DesktopMob.vb" />
     <Compile Include="DesktopMobForm.Designer.vb">
       <DependentUpon>DesktopMobForm.vb</DependentUpon>
@@ -68,6 +71,8 @@
     <Compile Include="DesktopMobForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DeviceContext.vb" />
+    <Compile Include="ForeignWindow.vb" />
     <Compile Include="Interop.vb" />
     <Compile Include="MobTask.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
