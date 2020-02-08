@@ -1,4 +1,4 @@
-﻿<TaskWeight(1000)>
+﻿<TaskWeight(10)>
 Public Class GooseFetchWebVideoTask
     Inherits GooseFetchWindowTask
 
