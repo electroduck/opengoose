@@ -15,6 +15,24 @@
         End Get
     End Property
 
+    Public ReadOnly Property Location As Point
+        Get
+            Return GetWindowLocation(Me)
+        End Get
+    End Property
+
+    Public ReadOnly Property ScreenRectangle As Rectangle
+        Get
+            Return GetWindowRectangle(Me)
+        End Get
+    End Property
+
+    Public ReadOnly Property ClientAreaRectangle As Rectangle
+        Get
+            Return GetClientAreaRectangle(Me)
+        End Get
+    End Property
+
     Public Sub New(hWnd As IntPtr)
         If hWnd = IntPtr.Zero Then
             Throw New ArgumentNullException("hWnd")

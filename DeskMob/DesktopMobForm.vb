@@ -14,15 +14,15 @@
         Get
             Dim cp As CreateParams = MyBase.CreateParams
             Select Case mTranspVersion
-                Case TranspVersion.WinXP
-                    'cp.ExStyle = cp.ExStyle Or &H20 ' legacy transparency (poor perf.)
-
                 Case TranspVersion.WinVista
                     cp.ExStyle = cp.ExStyle Or &H80000 ' newer transparency (better perf.)
                     ' Note: XP and 2000 "support" the new transparency method but it is not reliable
 
+                Case TranspVersion.WinXP
+                    cp.Style = cp.ExStyle Or &HC00080 ' no transparency
+
                 Case TranspVersion.Win2000
-                    cp.Style = cp.ExStyle Or &HC00000 ' no transparency
+                    cp.Style = cp.ExStyle Or &HC00080 ' no transparency
             End Select
             Return cp
         End Get
@@ -52,11 +52,13 @@
         End If
         Using gfx As Graphics = Graphics.FromImage(mBackBuffer)
             Select Case mTranspVersion
-                Case TranspVersion.Win2000
-                    gfx.Clear(SystemColors.Control)
-
                 Case TranspVersion.WinXP
                     DrawDesktopBackground(gfx, Me)
+                    'gfx.Clear(SystemColors.Control)
+
+                Case TranspVersion.Win2000
+                    DrawDesktopBackground(gfx, Me)
+                    'gfx.Clear(SystemColors.Control)
 
                 Case TranspVersion.WinVista
                     gfx.Clear(Color.Fuchsia)
@@ -73,6 +75,14 @@
         MyBase.OnPaint(e)
 
         e.Graphics.DrawImage(mBackBuffer, 0, 0, Width, Height)
+
+#If 0 Then
+        If mTranspVersion = TranspVersion.WinXP Then
+            Using g As Graphics = Graphics.FromHwnd(IntPtr.Zero)
+                g.DrawImage(mBackBuffer, Location.X, Location.Y, Width, Height)
+            End Using
+        End If
+#End If
     End Sub
 
     Protected Overrides Sub OnInvalidated(e As InvalidateEventArgs)

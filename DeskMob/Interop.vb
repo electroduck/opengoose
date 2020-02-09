@@ -41,6 +41,12 @@ Module Interop
         End If
     End Sub
 
+    Public Sub SetAlpha(wnd As IWin32Window, byAlpha As Byte)
+        If Not SetLayeredWindowAttributes(wnd.Handle, 0, byAlpha, 2) Then
+            Throw New Win32Exception(Err.LastDllError)
+        End If
+    End Sub
+
     Private Declare Auto Function SetWindowLong Lib "user32.dll" (hWnd As IntPtr, nIndex As Integer, dwNewLong As UInteger) As UInteger
 
     Private Declare Auto Function GetWindowLong Lib "user32.dll" (hwnd As IntPtr, nIndex As Integer) As UInteger
@@ -129,6 +135,9 @@ Module Interop
 
     Private Declare Ansi Function PaintDesktop Lib "user32.dll" (hDCDest As IntPtr) As Boolean
 
+    Private mDesktopCache As Bitmap = Nothing
+    Private mDesktopCacheMutex As New Object
+
     Public Sub DrawDesktopBackground(gfx As Graphics, Optional wnd As IWin32Window = Nothing)
         'Using dc As New DeviceContext(gfx)
         'If Not PaintDesktop(dc.Handle) Then
@@ -136,14 +145,17 @@ Module Interop
         'End If
         'End Using
 
-
-        Using bmDesktop As Bitmap = Desktop.MyDesktop.ProgramManager.DrawToBuffer()
-            If wnd Is Nothing Then
-                gfx.DrawImage(bmDesktop, 0, 0)
-            Else
-                gfx.DrawImage(bmDesktop, GetClientAreaRectangle(wnd), GetWindowRectangle(wnd), GraphicsUnit.Pixel)
+        SyncLock mDesktopCacheMutex
+            If mDesktopCache Is Nothing Then
+                mDesktopCache = Desktop.MyDesktop.ProgramManager.DrawToBuffer()
             End If
-        End Using
+        End SyncLock
+
+        If wnd Is Nothing Then
+            gfx.DrawImage(mDesktopCache, 0, 0)
+        Else
+            gfx.DrawImage(mDesktopCache, GetClientAreaRectangle(wnd), GetWindowRectangle(wnd), GraphicsUnit.Pixel)
+        End If
     End Sub
 
     Private Declare Unicode Function FindWindowW Lib "user32.dll" (strClassName As String, strWindowName As String) As IntPtr
@@ -158,5 +170,73 @@ Module Interop
 
         Return New ForeignWindow(hWnd)
     End Function
+
+    Private Delegate Function EnumWindowsProc(hWnd As IntPtr, param As IntPtr) As Boolean
+
+    Private Declare Ansi Function EnumWindows Lib "user32.dll" (procCallback As EnumWindowsProc, param As IntPtr) As Boolean
+
+    Public Function GetAllWindows() As IList(Of ForeignWindow)
+        Dim lstWindows As New List(Of ForeignWindow)
+
+        If Not EnumWindows(
+            Function(hWnd As IntPtr, param As IntPtr)
+                lstWindows.Add(New ForeignWindow(hWnd))
+                Return True
+            End Function, IntPtr.Zero) Then
+            Throw New Win32Exception(Err.LastDllError)
+        End If
+
+        Return lstWindows
+    End Function
+
+    Private Declare Ansi Function IsWindowVisible Lib "user32.dll" (hWnd As IntPtr) As Boolean
+
+    Public Function GetVisibleWindows() As IList(Of ForeignWindow)
+        Dim lstWindows As New List(Of ForeignWindow)
+
+        If Not EnumWindows(
+            Function(hWnd As IntPtr, param As IntPtr)
+                If IsWindowVisible(hWnd) Then
+                    lstWindows.Add(New ForeignWindow(hWnd))
+                End If
+                Return True
+            End Function, IntPtr.Zero) Then
+            Throw New Win32Exception(Err.LastDllError)
+        End If
+
+        Return lstWindows
+    End Function
+
+    Private Declare Ansi Function InvalidateRect Lib "user32.dll" (hWnd As IntPtr, ByRef rrect As Win32Rect, bErase As Boolean) As Boolean
+
+    Public Sub RedrawRectangle(wndRedraw As IWin32Window, rect As Rectangle)
+        Dim rectWin32 As Win32Rect
+        rectWin32.Left = rect.Left
+        rectWin32.Top = rect.Top
+        rectWin32.Right = rect.Right
+        rectWin32.Bottom = rect.Bottom
+
+        If Not InvalidateRect(wndRedraw.Handle, rectWin32, False) Then
+            Throw New Win32Exception(Err.LastDllError)
+        End If
+    End Sub
+
+    Public Sub RedrawIntersecting(wndRedraw As IWin32Window, wndCheck As IWin32Window)
+        Dim rectWindowCheck As Rectangle
+        Dim rectWindowRedraw As Rectangle
+        Dim rectInvalidate As Rectangle
+
+        rectWindowCheck = GetWindowRectangle(wndCheck)
+        rectWindowRedraw = GetWindowRectangle(wndRedraw)
+
+        If Not rectWindowRedraw.IntersectsWith(rectWindowCheck) Then
+            Return
+        End If
+
+        rectInvalidate = rectWindowRedraw
+        rectInvalidate.Intersect(rectWindowCheck)
+
+        RedrawRectangle(wndRedraw, rectInvalidate)
+    End Sub
 
 End Module
