@@ -53,12 +53,12 @@
         Using gfx As Graphics = Graphics.FromImage(mBackBuffer)
             Select Case mTranspVersion
                 Case TranspVersion.WinXP
-                    DrawDesktopBackground(gfx, Me)
-                    'gfx.Clear(SystemColors.Control)
+                    'DrawDesktopBackground(gfx, Me)
+                    gfx.Clear(SystemColors.Desktop)
 
                 Case TranspVersion.Win2000
-                    DrawDesktopBackground(gfx, Me)
-                    'gfx.Clear(SystemColors.Control)
+                    'DrawDesktopBackground(gfx, Me)
+                    gfx.Clear(SystemColors.Desktop)
 
                 Case TranspVersion.WinVista
                     gfx.Clear(Color.Fuchsia)
@@ -75,14 +75,6 @@
         MyBase.OnPaint(e)
 
         e.Graphics.DrawImage(mBackBuffer, 0, 0, Width, Height)
-
-#If 0 Then
-        If mTranspVersion = TranspVersion.WinXP Then
-            Using g As Graphics = Graphics.FromHwnd(IntPtr.Zero)
-                g.DrawImage(mBackBuffer, Location.X, Location.Y, Width, Height)
-            End Using
-        End If
-#End If
     End Sub
 
     Protected Overrides Sub OnInvalidated(e As InvalidateEventArgs)

@@ -138,23 +138,57 @@ Module Interop
     Private mDesktopCache As Bitmap = Nothing
     Private mDesktopCacheMutex As New Object
 
+    'BOOL BitBlt(
+    '   HDC   hdc,
+    '   int   x,
+    '   int   y,
+    '   int   cx,
+    '   int   cy,
+    '   HDC   hdcSrc,
+    '   int   x1,
+    '   int   y1,
+    '   DWORD rop
+    ');
+
+    Private Declare Ansi Function CreateCompatibleBitmap Lib "gdi32.dll" (hDC As IntPtr, nWidth As Integer, nHeight As Integer) As IntPtr
+    Private Declare Ansi Function CreateCompatibleDC Lib "gdi32.dll" (hDC As IntPtr) As IntPtr
+    Private Declare Ansi Function SelectObject Lib "gdi32.dll" (hDC As IntPtr, hObject As IntPtr) As IntPtr
+    Private Declare Ansi Function BitBlt Lib "gdi32.dll" (hDestDC As IntPtr, nDestX As Integer, nDestY As Integer, nWidth As Integer, nHeight As Integer,
+                                                          hSrcDC As IntPtr, nSrcX As Integer, nSrcY As Integer, dwROP As UInteger) As Boolean
+    Private Declare Ansi Function DeleteDC Lib "gdi32.dll" (hDC As IntPtr) As Boolean
+    Private Declare Ansi Function DeleteObject Lib "gdi32.dll" (hDC As IntPtr) As Boolean
+
     Public Sub DrawDesktopBackground(gfx As Graphics, Optional wnd As IWin32Window = Nothing)
-        'Using dc As New DeviceContext(gfx)
-        'If Not PaintDesktop(dc.Handle) Then
-        'Throw New Win32Exception(Err.LastDllError)
-        'End If
-        'End Using
-
-        SyncLock mDesktopCacheMutex
-            If mDesktopCache Is Nothing Then
-                mDesktopCache = Desktop.MyDesktop.ProgramManager.DrawToBuffer()
+        If Environment.OSVersion.Version.Major < 6 Then
+            Dim rectfBounds As RectangleF = gfx.ClipBounds
+            Dim bDidPaint As Boolean = False
+            Dim nLastError As Integer = 0
+            Using dc As New DeviceContext(gfx)
+                Dim hBitmapAlt As IntPtr = CreateCompatibleBitmap(IntPtr.Zero, rectfBounds.Width, rectfBounds.Height)
+                Dim hDCAlt As IntPtr = CreateCompatibleDC(dc.Handle)
+                Dim hOldBitmap As IntPtr = SelectObject(hDCAlt, hBitmapAlt)
+                bDidPaint = PaintDesktop(hDCAlt)
+                nLastError = Err.LastDllError
+                BitBlt(dc.Handle, 0, 0, rectfBounds.Width, rectfBounds.Height, hDCAlt, 0, 0, &HCC0020)
+                SelectObject(hDCAlt, hOldBitmap)
+                DeleteDC(hDCAlt)
+                DeleteObject(hBitmapAlt)
+            End Using
+            If Not bDidPaint Then
+                Throw New Win32Exception(nLastError)
             End If
-        End SyncLock
-
-        If wnd Is Nothing Then
-            gfx.DrawImage(mDesktopCache, 0, 0)
         Else
-            gfx.DrawImage(mDesktopCache, GetClientAreaRectangle(wnd), GetWindowRectangle(wnd), GraphicsUnit.Pixel)
+            SyncLock mDesktopCacheMutex
+                If mDesktopCache Is Nothing Then
+                    mDesktopCache = Desktop.MyDesktop.ProgramManager.DrawToBuffer()
+                End If
+            End SyncLock
+
+            If wnd Is Nothing Then
+                gfx.DrawImage(mDesktopCache, 0, 0)
+            Else
+                gfx.DrawImage(mDesktopCache, GetClientAreaRectangle(wnd), GetWindowRectangle(wnd), GraphicsUnit.Pixel)
+            End If
         End If
     End Sub
 
