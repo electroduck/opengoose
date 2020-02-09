@@ -72,3 +72,13 @@ Section
 	
 	WriteRegStr HKLM "SOFTWARE\OpenGoose" "Location" "$INSTDIR"
 SectionEnd
+
+Section "Uninstall"
+	SetShellVarContext all
+	RMDir /r /REBOOTOK $INSTDIR
+	Delete "$DESKTOP\OpenGoose.lnk"
+	Delete "$SMPROGRAMS\OpenGoose.lnk"
+	DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenGoose"
+	DeleteRegKey HKLM "SOFTWARE\OpenGoose"
+SectionEnd
+
