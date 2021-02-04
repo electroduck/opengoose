@@ -73,7 +73,7 @@
 
         Select Case nMajorVersion
             Case 11
-                dwRegVersion = 11001
+                dwRegVersion = 11000
 
             Case 10
                 dwRegVersion = 10001
