@@ -35,15 +35,11 @@
         ' Add any initialization after the InitializeComponent() call.
 
         ' Get transparency support
-#If DEBUG Then
-        mTranspVersion = TranspVersion.WinXP
-#Else
         If Environment.OSVersion.Version.Major >= 6 Then
             mTranspVersion = TranspVersion.WinVista
         ElseIf Environment.OSVersion.Version.Major = 5 And Environment.OSVersion.Version.Minor >= 1 Then
             mTranspVersion = TranspVersion.WinXP
         End If
-#End If
     End Sub
 
     Private Sub UpdateBackBuffer()
