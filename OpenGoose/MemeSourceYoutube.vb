@@ -4,8 +4,8 @@
 Public Class MemeSourceYoutube
     Inherits MemeSource(Of MemeVideo)
 
-    ' <a [^>]*href="\/watch\?v=([^&"]+).*">
-    Private Const REGEX_VIDEOID As String = "<a [^>]*href=""\/watch\?v=([^&""]+).*"">"
+    ' "videoId":"([^"]*)"
+    Private Const REGEX_VIDEOID As String = """videoId"":""([^""]*)"""
 
     Private mURLs As New Queue(Of String)
 
